@@ -16,7 +16,8 @@ namespace GeneticAlgorithms_1stTry
         public Form1()
         {
             InitializeComponent();
-            TSV = new TravellingSalesMan(3);        
+            TSV = new TravellingSalesMan(3);
+            TSV.sortDistance();
         }
         
         

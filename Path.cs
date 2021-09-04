@@ -17,14 +17,13 @@ namespace GeneticAlgorithms_1stTry
             
         }
 
-        public int calDistance()
+        public void calDistance()
         {
             
             for(int i = 1;i < cities.Count; i++)
             {
-                distance = (int)(distance + Math.Sqrt(Math.Pow((cities.ElementAt(i).xcor - cities.ElementAt(i-1).xcor), 2) + Math.Pow((cities.ElementAt(i).ycor - cities.ElementAt(i-1).ycor), 2)));
+                distance = (int)(distance + Math.Sqrt(Math.Pow((cities[i].xcor - cities[i-1].xcor), 2) + Math.Pow((cities[i].ycor - cities[i-1].ycor), 2)));
             }
-            return distance;
         }
 
 

@@ -17,7 +17,7 @@ namespace GeneticAlgorithms_1stTry
             this.cityNum = n;
             for (int i = 0; i < n; i++)
             {
-                string letter = alphabeth.Substring(i);
+                string letter = alphabeth.Substring(i,1);
                 AllCities.Add(new City(r.Next(500), r.Next(500), letter));
             }
             generateAllpaths();
@@ -63,8 +63,21 @@ namespace GeneticAlgorithms_1stTry
                 {
                     string City = path.Substring(i,1);
                     p.cities.Add(AllCities.Where(C => C.name == alphabeth.Substring(Convert.ToInt32(City), 1)).FirstOrDefault());
+                    p.stringpath = path;
                 }
-                int d = p.calDistance();
+                 p.calDistance();
+                paths.Add(p);
+            }
+        }
+
+        public void sortDistance()
+        {
+             var order = paths.OrderBy(p => p.distance);
+            int i = 0;
+            foreach(var p in order)
+            {
+                paths[i] = p;
+                i++;
             }
         }
     }
