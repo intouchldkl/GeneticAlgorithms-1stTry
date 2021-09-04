@@ -64,6 +64,7 @@ namespace GeneticAlgorithms_1stTry
                     string City = path.Substring(i,1);
                     p.cities.Add(AllCities.Where(C => C.name == alphabeth.Substring(Convert.ToInt32(City), 1)).FirstOrDefault());
                 }
+                int d = p.calDistance();
             }
         }
     }
