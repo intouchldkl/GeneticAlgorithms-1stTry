@@ -73,13 +73,14 @@ namespace GeneticAlgorithms_1stTry
 
         public void sortDistance()
         {
-             var order = paths.OrderBy(p => p.distance);
+           /*  var order = paths.OrderBy(p => p.distance);
             int i = 0;
             foreach(var p in order)
             {
                 paths[i] = p;
                 i++;
-            }
+            } */
+          paths =  paths.OrderBy(p => p.distance).ToList();
         }
     }
 }
