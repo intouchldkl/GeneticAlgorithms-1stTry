@@ -8,7 +8,7 @@ namespace GeneticAlgorithms_1stTry
     class TravellingSalesMan
     {
         public List<City> AllCities = new List<City>();
-        public Random r = new Random();
+        public Random r = new Random(1);
         public string alphabeth = "abcdefghijklmnopqrstuvbxyz";
         public List<Path> paths = new List<Path>();
         public int cityNum;
@@ -39,7 +39,7 @@ namespace GeneticAlgorithms_1stTry
                     stringPaths.Add(path);
                 }
                
-            } while (stringPaths.Count < factorial(cityNum));
+            } while (stringPaths.Count < 100);
 
             stringPaths.Sort();
             BuildPaths(stringPaths);
