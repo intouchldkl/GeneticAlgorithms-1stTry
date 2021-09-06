@@ -9,7 +9,7 @@ namespace GeneticAlgorithms_1stTry
     {
         public List<City> AllCities = new List<City>();
         public Random r = new Random(1);
-        public string alphabeth = "abcdefghijklmnopqrstuvbxyz";
+        public string alphabet = "abcdefghijklmnopqrstuvwxyz";
         public List<Path> paths = new List<Path>();
         public int cityNum;
         public TravellingSalesMan(int n)
@@ -17,7 +17,7 @@ namespace GeneticAlgorithms_1stTry
             this.cityNum = n;
             for (int i = 0; i < n; i++)
             {
-                string letter = alphabeth.Substring(i,1);
+                string letter = alphabet.Substring(i,1);
                 AllCities.Add(new City(r.Next(500), r.Next(500), letter));
             }
             generateAllpaths();
@@ -32,7 +32,15 @@ namespace GeneticAlgorithms_1stTry
                 string path = ""; 
                 for(int i = 0; i < cityNum; i++)
                 {
-                    path = path + r.Next(cityNum).ToString();
+                    int random = r.Next(cityNum);
+                    string letter = alphabet.Substring(random,1).ToString();
+                    
+                    if (path.Contains(letter))
+                    {
+                        i--;
+                        continue;
+                    }
+                    path = path + random.ToString(); ;
                 }
                 if (!stringPaths.Contains(path) && path.Distinct().Count() == cityNum)
                 {
@@ -60,10 +68,10 @@ namespace GeneticAlgorithms_1stTry
            foreach(string path in AllpossiblePaths)
             {
                 Path p = new Path();
-                for(int i = 0; i < AllpossiblePaths.Count; i++)
+                for(int i = 0; i < cityNum; i++)
                 {
                     string City = path.Substring(i,1);
-                    p.cities.Add(AllCities.Where(C => C.name == alphabeth.Substring(Convert.ToInt32(City), 1)).FirstOrDefault());
+                    p.cities.Add(AllCities.Where(C => C.name == alphabet.Substring(Convert.ToInt32(City), 1)).FirstOrDefault());
                     p.stringpath = path;
                 }
                  p.calDistance();
