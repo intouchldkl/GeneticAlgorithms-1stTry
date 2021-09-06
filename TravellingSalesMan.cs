@@ -60,7 +60,7 @@ namespace GeneticAlgorithms_1stTry
            foreach(string path in AllpossiblePaths)
             {
                 Path p = new Path();
-                for(int i = 0; i < cityNum; i++)
+                for(int i = 0; i < AllpossiblePaths.Count; i++)
                 {
                     string City = path.Substring(i,1);
                     p.cities.Add(AllCities.Where(C => C.name == alphabeth.Substring(Convert.ToInt32(City), 1)).FirstOrDefault());
