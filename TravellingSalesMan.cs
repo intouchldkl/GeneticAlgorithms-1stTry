@@ -21,6 +21,7 @@ namespace GeneticAlgorithms_1stTry
                 AllCities.Add(new City(r.Next(500), r.Next(500), letter));
             }
             generateAllpaths();
+            sortDistance();
         }
 
         public void generateAllpaths()
