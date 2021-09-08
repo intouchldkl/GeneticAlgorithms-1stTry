@@ -136,27 +136,21 @@ namespace GeneticAlgorithms_1stTry
             for (int i = 0; i < parentone.cities.Count; i++)
             {
                 string c2 = parenttwo.cities[i].name;
-
-                for (int x = 0; x < parentone.cities.Count; x++)
+              int v =  parentone.cities.IndexOf(parentone.cities.Where(C => C.name == c2).FirstOrDefault());
+                if (childpath.cities.Contains(parenttwo.cities[i]))
                 {
-                    string c1 = parentone.cities[x].name;
-
-                    if (c2 == c1 && !childpath.cities.Contains(parenttwo.cities[i]))
+                    for (int y = 0; y < childpath.cities.Count; y++)
                     {
-                        childpath.cities[x] = parenttwo.cities[i];
-                    }
-                    else if(c1 == c2 && childpath.cities.Contains(parenttwo.cities[i]))
-                    {
-                        for(int y = 0; y < childpath.cities.Count; y++)
+                        if (childpath.cities[y] == null)
                         {
-                            if(childpath.cities[y] == null)
-                            {
-                                childpath.cities[y] =  parenttwo.cities[y];
-                            }
+                            childpath.cities[y] = parenttwo.cities[y];
                         }
                     }
                 }
-                
+                else if (!childpath.cities.Contains(parenttwo.cities[i]))
+                {
+                    childpath.cities[v] = parenttwo.cities[i];
+                }
 
             }
             return childpath;
