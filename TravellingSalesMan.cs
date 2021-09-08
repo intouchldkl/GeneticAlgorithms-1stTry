@@ -126,18 +126,21 @@ namespace GeneticAlgorithms_1stTry
         public Path crossovercycle(Path parentone, Path parenttwo)
         {
             Path childpath = new Path();
-
+            
             for (int i = 0; i < parentone.cities.Count; i++)
             {
                 childpath.cities.Add(new City(0,0,"empty"));
             }
-
+  
             childpath.cities[0] = copyCity(parentone.cities[0]);
-            for (int i = 0; i < parentone.cities.Count; i++)
+            string c2 = parenttwo.cities[0].name;
+            int x = 0;
+            while (childpath.cities.Exists(x => x.name == "empty"))
             {
-                string c2 = parenttwo.cities[i].name;
+                
               int v =  parentone.cities.IndexOf(parentone.cities.Where(C => C.name == c2).FirstOrDefault());
-                if (childpath.cities.Exists(x => x.name == parenttwo.cities[i].name))
+
+                if (childpath.cities.Exists(x => x.name == c2))
                 {
                     for (int y = 0; y < childpath.cities.Count; y++)
                     {
@@ -146,13 +149,23 @@ namespace GeneticAlgorithms_1stTry
                             childpath.cities[y] = copyCity(parenttwo.cities[y]);
                         }
                     }
+                   
                 }
-                else if (!childpath.cities.Exists(x => x.name == parenttwo.cities[i].name))
+                else if (!childpath.cities.Exists(x => x.name == c2))
                 {
-                    childpath.cities[v] = copyCity(parenttwo.cities[i]);
+                    childpath.cities[v] = copyCity(parenttwo.cities[x]);
                 }
-
+                c2 = parenttwo.cities[v].name;
+                x = v;
             }
+         
+
+            string p0 = string.Join(",", paths[0].cities.Select(c => c.name));
+            string p1 = string.Join(",", paths[1].cities.Select(c => c.name));
+            string o1 = string.Join(",", childpath.cities.Select(c => c.name));
+            bool validtour = childpath.cities.Distinct().Count() == childpath.cities.Count;
+            bool haschanged = o1 != p0 && o1 != p1;
+           
             return childpath;
         }
         public City copyCity(City CityToCopy)
