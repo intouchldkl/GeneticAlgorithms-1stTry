@@ -7,7 +7,7 @@ namespace GeneticAlgorithms_1stTry
 {
     class Path
     {
-       public int distance = 0;
+       public double distance = 0;
        public string stringpath;
         public List<City> cities = new List<City>();
         public Path()
@@ -22,7 +22,7 @@ namespace GeneticAlgorithms_1stTry
             
             for(int i = 1;i < cities.Count; i++)
             {
-                distance = (int)(distance + Math.Sqrt(Math.Pow((cities[i].xcor - cities[i-1].xcor), 2) + Math.Pow((cities[i].ycor - cities[i-1].ycor), 2)));
+                distance = (distance + Math.Sqrt(Math.Pow((cities[i].xcor - cities[i-1].xcor), 2) + Math.Pow((cities[i].ycor - cities[i-1].ycor), 2)));
             }
         }
 

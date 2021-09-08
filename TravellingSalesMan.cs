@@ -20,8 +20,12 @@ namespace GeneticAlgorithms_1stTry
                 string letter = alphabet.Substring(i,1);
                 AllCities.Add(new City(r.Next(500), r.Next(500), letter));
             }
+            //Initialise
             generateAllpaths();
+            //Evaluation
             sortDistance();
+            //Selection
+            selectionTruncation(10);
         }
 
         public void generateAllpaths()
@@ -40,7 +44,7 @@ namespace GeneticAlgorithms_1stTry
                         i--;
                         continue;
                     }
-                    path = path + random.ToString(); ;
+                    path = path + letter; ;
                 }
                 if (!stringPaths.Contains(path) && path.Distinct().Count() == cityNum)
                 {
@@ -71,7 +75,7 @@ namespace GeneticAlgorithms_1stTry
                 for(int i = 0; i < cityNum; i++)
                 {
                     string City = path.Substring(i,1);
-                    p.cities.Add(AllCities.Where(C => C.name == alphabet.Substring(Convert.ToInt32(City), 1)).FirstOrDefault());
+                    p.cities.Add(AllCities.Where(C => C.name == City).FirstOrDefault());
                     p.stringpath = path;
                 }
                  p.calDistance();
@@ -89,6 +93,32 @@ namespace GeneticAlgorithms_1stTry
                 i++;
             } */
           paths =  paths.OrderBy(p => p.distance).ToList();
+        }
+
+        public void selectionTruncation(double Spercent)
+        {
+            int pathsToKeep = (int)(Spercent / 100 * paths.Count());
+            int pathsToKill = paths.Count - pathsToKeep;
+            for(int i = pathsToKeep; i < paths.Count(); i++)
+            {
+                paths[i] = null;
+            }
+            for(int i = 0; i < pathsToKill; i++)
+            {
+                paths[i + pathsToKeep] = copypath(paths[i]);
+            }
+            
+        }
+
+        public Path copypath(Path pathToCopy)
+        {
+            Path newPath = new Path();
+            newPath.distance = pathToCopy.distance;
+            foreach(City c in pathToCopy.cities)
+            {
+                newPath.cities.Add(c);
+            }
+            return newPath;
         }
     }
 }
