@@ -28,7 +28,7 @@ namespace GeneticAlgorithms_1stTry
             selectionTruncation(10);
             //crossover
     
-        Path newpaht =    crossovercycle(paths[0],paths[1]);
+        Path newpath =    crossovercycle(paths[0],paths[1]);
         }
 
         public void generateAllpaths()
@@ -129,31 +129,36 @@ namespace GeneticAlgorithms_1stTry
 
             for (int i = 0; i < parentone.cities.Count; i++)
             {
-                childpath.cities.Add(null);
+                childpath.cities.Add(new City(0,0,"empty"));
             }
 
-            childpath.cities[0] = parentone.cities[0];
+            childpath.cities[0] = copyCity(parentone.cities[0]);
             for (int i = 0; i < parentone.cities.Count; i++)
             {
                 string c2 = parenttwo.cities[i].name;
               int v =  parentone.cities.IndexOf(parentone.cities.Where(C => C.name == c2).FirstOrDefault());
-                if (childpath.cities.Contains(parenttwo.cities[i]))
+                if (childpath.cities.Exists(x => x.name == parenttwo.cities[i].name))
                 {
                     for (int y = 0; y < childpath.cities.Count; y++)
                     {
-                        if (childpath.cities[y] == null)
+                        if (childpath.cities[y].name == "empty")
                         {
-                            childpath.cities[y] = parenttwo.cities[y];
+                            childpath.cities[y] = copyCity(parenttwo.cities[y]);
                         }
                     }
                 }
-                else if (!childpath.cities.Contains(parenttwo.cities[i]))
+                else if (!childpath.cities.Exists(x => x.name == parenttwo.cities[i].name))
                 {
-                    childpath.cities[v] = parenttwo.cities[i];
+                    childpath.cities[v] = copyCity(parenttwo.cities[i]);
                 }
 
             }
             return childpath;
+        }
+        public City copyCity(City CityToCopy)
+        {
+            City newcity = new City(CityToCopy.xcor, CityToCopy.ycor, CityToCopy.name);
+            return newcity;
         }
     }
 }
