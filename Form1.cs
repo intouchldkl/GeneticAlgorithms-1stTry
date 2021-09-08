@@ -16,7 +16,7 @@ namespace GeneticAlgorithms_1stTry
         public Form1()
         {
             InitializeComponent();
-            TSP = new TravellingSalesMan(20);
+            TSP = new TravellingSalesMan(8);
 
         }
 

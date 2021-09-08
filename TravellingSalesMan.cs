@@ -26,6 +26,9 @@ namespace GeneticAlgorithms_1stTry
             sortDistance();
             //Selection
             selectionTruncation(10);
+            //crossover
+    
+        Path newpaht =    crossovercycle(paths[0],paths[1]);
         }
 
         public void generateAllpaths()
@@ -119,6 +122,44 @@ namespace GeneticAlgorithms_1stTry
                 newPath.cities.Add(c);
             }
             return newPath;
+        }
+        public Path crossovercycle(Path parentone, Path parenttwo)
+        {
+            Path childpath = new Path();
+
+            for (int i = 0; i < parentone.cities.Count; i++)
+            {
+                childpath.cities.Add(null);
+            }
+
+            childpath.cities[0] = parentone.cities[0];
+            for (int i = 0; i < parentone.cities.Count; i++)
+            {
+                string c2 = parenttwo.cities[i].name;
+
+                for (int x = 0; x < parentone.cities.Count; x++)
+                {
+                    string c1 = parentone.cities[x].name;
+
+                    if (c2 == c1 && !childpath.cities.Contains(parenttwo.cities[i]))
+                    {
+                        childpath.cities[x] = parenttwo.cities[i];
+                    }
+                    else if(c1 == c2 && childpath.cities.Contains(parenttwo.cities[i]))
+                    {
+                        for(int y = 0; y < childpath.cities.Count; y++)
+                        {
+                            if(childpath.cities[y] == null)
+                            {
+                                childpath.cities[y] =  parenttwo.cities[y];
+                            }
+                        }
+                    }
+                }
+                
+
+            }
+            return childpath;
         }
     }
 }
