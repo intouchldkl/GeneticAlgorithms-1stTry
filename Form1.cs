@@ -16,7 +16,7 @@ namespace GeneticAlgorithms_1stTry
         public Form1()
         {
             InitializeComponent();
-            TSP = new TravellingSalesMan(16);
+            TSP = new TravellingSalesMan(20);
 
         }
 
@@ -41,6 +41,16 @@ namespace GeneticAlgorithms_1stTry
                 bestpathcity = bestpathcity + c.name;
             }
             bestPlabel.Text = bestpathcity + " => " + BestPath.distance.ToString() + " meter";
+        }
+
+        private void evolebut_Click(object sender, EventArgs e)
+        {
+            while(TSP.generationNum < 1000)
+            {
+                TSP.performEvoulution();
+                panel1.Invalidate();
+            }
+         
         }
     }
 }

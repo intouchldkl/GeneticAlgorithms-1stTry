@@ -12,6 +12,7 @@ namespace GeneticAlgorithms_1stTry
         public string alphabet = "abcdefghijklmnopqrstuvwxyz";
         public List<Path> paths = new List<Path>();
         public int cityNum;
+        public int generationNum = 0;
         public TravellingSalesMan(int n)
         {
             this.cityNum = n;
@@ -24,11 +25,7 @@ namespace GeneticAlgorithms_1stTry
             generateAllpaths();
             //Evaluation
             sortDistance();
-            //Selection
-            selectionTruncation(10);
-            //crossover
-    
-        Path newpath =    crossovercycle(paths[0],paths[1]);
+           
         }
 
         public void generateAllpaths()
@@ -125,22 +122,18 @@ namespace GeneticAlgorithms_1stTry
         }
         public Path crossovercycle(Path parentone, Path parenttwo)
         {
-            Path childpath = new Path();
-            
+            Path childpath = new Path();         
             for (int i = 0; i < parentone.cities.Count; i++)
             {
                 childpath.cities.Add(new City(0,0,"empty"));
             }
-  
-            childpath.cities[0] = copyCity(parentone.cities[0]);
+            childpath.cities[0] = copyCity(parentone.cities[r.Next(cityNum)]);
             string c2 = parenttwo.cities[0].name;
             int x = 0;
-            while (childpath.cities.Exists(x => x.name == "empty"))
-            {
-                
+            while (childpath.cities.Exists(c => c.name == "empty"))
+            {   
               int v =  parentone.cities.IndexOf(parentone.cities.Where(C => C.name == c2).FirstOrDefault());
-
-                if (childpath.cities.Exists(x => x.name == c2))
+                if (childpath.cities.Exists(c => c.name == c2))
                 {
                     for (int y = 0; y < childpath.cities.Count; y++)
                     {
@@ -148,30 +141,58 @@ namespace GeneticAlgorithms_1stTry
                         {
                             childpath.cities[y] = copyCity(parenttwo.cities[y]);
                         }
-                    }
-                   
+                    }                   
                 }
-                else if (!childpath.cities.Exists(x => x.name == c2))
+                else if (!childpath.cities.Exists(c => c.name == c2))
                 {
                     childpath.cities[v] = copyCity(parenttwo.cities[x]);
                 }
                 c2 = parenttwo.cities[v].name;
                 x = v;
             }
-         
-
             string p0 = string.Join(",", paths[0].cities.Select(c => c.name));
             string p1 = string.Join(",", paths[1].cities.Select(c => c.name));
             string o1 = string.Join(",", childpath.cities.Select(c => c.name));
             bool validtour = childpath.cities.Distinct().Count() == childpath.cities.Count;
-            bool haschanged = o1 != p0 && o1 != p1;
-           
+         //   bool haschanged = o1 != p0 && o1 != p1;          
             return childpath;
         }
         public City copyCity(City CityToCopy)
         {
             City newcity = new City(CityToCopy.xcor, CityToCopy.ycor, CityToCopy.name);
             return newcity;
+        }
+        public bool IsValidTour(Path path)
+        {
+            return path.cities.Distinct().Count() == path.cities.Count;
+        }
+        public List<Path> crossover()
+        {
+            List<Path> childrenpaths = new List<Path>();
+            childrenpaths.Add(paths[0]);
+            for(int i = 0; i < paths.Count - 1; i++)
+            {
+                Path childpath = crossovercycle( paths[i], paths[paths.Count - i - 1]);
+                int r1 = r.Next(cityNum);
+                int r2 = r.Next(cityNum);
+                City temp = childpath.cities[r1];
+                childpath.cities[r1] = childpath.cities[r2];
+                childpath.cities[r2] = temp;
+                childpath.calDistance();
+                childrenpaths.Add(childpath);
+
+            }
+
+            return childrenpaths;
+        }
+        public void performEvoulution()
+        {
+            //Selection
+            selectionTruncation(10);
+            //crossover
+            paths = crossover();
+            sortDistance();
+            generationNum++;
         }
     }
 }

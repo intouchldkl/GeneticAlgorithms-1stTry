@@ -31,6 +31,7 @@ namespace GeneticAlgorithms_1stTry
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.bestPlabel = new System.Windows.Forms.Label();
+            this.evolebut = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel1
@@ -51,11 +52,22 @@ namespace GeneticAlgorithms_1stTry
             this.bestPlabel.TabIndex = 1;
             this.bestPlabel.Text = "text";
             // 
+            // evolebut
+            // 
+            this.evolebut.Location = new System.Drawing.Point(558, 242);
+            this.evolebut.Name = "evolebut";
+            this.evolebut.Size = new System.Drawing.Size(159, 69);
+            this.evolebut.TabIndex = 2;
+            this.evolebut.Text = "Evolve";
+            this.evolebut.UseVisualStyleBackColor = true;
+            this.evolebut.Click += new System.EventHandler(this.evolebut_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(973, 662);
+            this.Controls.Add(this.evolebut);
             this.Controls.Add(this.bestPlabel);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
@@ -69,6 +81,7 @@ namespace GeneticAlgorithms_1stTry
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label bestPlabel;
+        private System.Windows.Forms.Button evolebut;
     }
 }
 
