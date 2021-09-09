@@ -127,9 +127,10 @@ namespace GeneticAlgorithms_1stTry
             {
                 childpath.cities.Add(new City(0,0,"empty"));
             }
-            childpath.cities[0] = copyCity(parentone.cities[r.Next(cityNum)]);
-            string c2 = parenttwo.cities[0].name;
-            int x = 0;
+            int r1 = r.Next(cityNum);
+            childpath.cities[r1] = copyCity(parentone.cities[r1]);
+            string c2 = parenttwo.cities[r1].name;
+            int x = r1;
             while (childpath.cities.Exists(c => c.name == "empty"))
             {   
               int v =  parentone.cities.IndexOf(parentone.cities.Where(C => C.name == c2).FirstOrDefault());
