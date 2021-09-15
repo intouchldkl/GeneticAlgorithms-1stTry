@@ -79,6 +79,7 @@ namespace GeneticAlgorithms_1stTry
                     p.stringpath = path;
                 }
                  p.calDistance();
+                p.calFitness();
                 paths.Add(p);
             }
         }
@@ -109,7 +110,137 @@ namespace GeneticAlgorithms_1stTry
             }
             
         }
+        
+        // This one wrote myself
+        public void selectionStochastic2()
+        {
 
+            double total = 0;
+            List<Path> temp = new List<Path>() ;
+            temp.Add(copypath(paths[0]));
+           /* 
+            for (int i = 0; i < paths.Count; i++)
+            {
+                temp.Add(new Path());
+            }*/
+            foreach (var p in paths)
+            {
+                total += p.fitness;
+            }
+            double sum = 0;
+       //     int j = 0;
+            Random rr = new Random();
+            double r1 = rr.NextDouble();
+            double ReproductionRate;
+            for (int i = 0 ;i < paths.Count; i++)
+            {
+               ReproductionRate = ((paths[i].fitness / total));
+                sum = sum +ReproductionRate;
+                while (sum > r1)
+                {
+                    temp.Add(copypath(paths[i]));
+                 //   j++;
+                    r1 += 0.01;
+                }
+            }
+            string p0 = "";
+            string p1 = "";
+           
+            int c = temp.Count;
+
+            int x = 0;
+            for (int i = c; i < paths.Count; i++)
+            {
+                if (x == temp.Count) x = 0;
+                temp.Add(copypath(temp[x]));
+                x++;
+            }
+       //     paths = temp;
+            for (int i = 0; i < paths.Count; i++)
+            {
+               
+                p1 = p1 + string.Join(",", paths[i].distance + "\n");
+            }
+            for (int i = 0; i < temp.Count; i++)
+            {
+                p0 = p0 + string.Join(",", temp[i].distance + "\n");
+
+            }
+        }
+
+        //This one refer to the pseudocode from https://en.wikipedia.org/wiki/Stochastic_universal_sampling
+        public void selectionStochastic(double OfftoKeep)
+        {
+            int pathsToKeep = (int)(OfftoKeep / 100 * paths.Count());
+            List<Path> keptPaths = new List<Path>();
+            keptPaths.Add(paths[0]);
+            List<double> pointers = new List<double>();
+            double total = 0;
+            int z = 0;
+            foreach (var path in paths)
+            {
+                if(z == pathsToKeep)
+                {
+                    break;
+                }
+                total += path.fitness;
+                z++;
+            }
+            Random rr = new Random();
+            double p = (total / OfftoKeep);
+            int start = rr.Next(0, (int)p);
+            for(int i = 0; i < OfftoKeep ; i++)
+            {
+                pointers.Add(start + (i * p));
+            }
+            foreach(int point in pointers)
+            {
+                int i = 0;
+                double sum = 0;
+                for(int y = 0; y < i; y++)
+                {
+                    sum += paths[y].fitness;
+                }
+                while (getfitnesssum(i) < point )
+                {
+                    i++;
+                    keptPaths.Add(paths[i]);
+                   
+                }
+            }
+            
+            string p0 = "";
+            string p1 = "";
+            
+            for (int i = 0; i < paths.Count; i++)
+            {
+                p1 = p1 + string.Join(",", paths[i].distance + "\n");
+            }
+            
+            int c = keptPaths.Distinct().Count();
+            List<Path> temp = keptPaths.Distinct().ToList();
+            for (int i = 0; i < temp.Count; i++)
+            {
+                p0 = p0 + string.Join(",", temp[i].distance + "\n");
+
+            }
+            int x = 0;
+            for(int i = c; i < paths.Count; i++)
+            {
+                paths[i] = temp[x];
+                x++;
+            }
+        }
+        public double getfitnesssum(int index)
+        {
+            double sum = 0;
+            for (int y = 0; y < index; y++)
+            {
+                sum += paths[y].fitness;
+            }
+            return sum;
+        }
+    
         public Path copypath(Path pathToCopy)
         {
             Path newPath = new Path();
@@ -176,6 +307,7 @@ namespace GeneticAlgorithms_1stTry
                 Path childpath = crossovercycle( paths[i], paths[paths.Count - i - 1]);
                 int r1 = r.Next(cityNum);
                 int r2 = r.Next(cityNum);
+                //mutation
                 City temp = childpath.cities[r1];
                 childpath.cities[r1] = childpath.cities[r2];
                 childpath.cities[r2] = temp;
@@ -189,11 +321,14 @@ namespace GeneticAlgorithms_1stTry
         public void performEvoulution()
         {
             //Selection
-            selectionTruncation(10);
+            //  selectionTruncation(10);
+            selectionStochastic2();
             //crossover
             paths = crossover();
             sortDistance();
             generationNum++;
         }
+
+    
     }
 }

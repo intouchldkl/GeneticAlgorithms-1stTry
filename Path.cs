@@ -10,6 +10,7 @@ namespace GeneticAlgorithms_1stTry
        public double distance = 0;
        public string stringpath;
         public List<City> cities = new List<City>();
+        public double fitness;
         public Path()
         {
             //loop through all cities
@@ -24,6 +25,11 @@ namespace GeneticAlgorithms_1stTry
             {
                 distance = (distance + Math.Sqrt(Math.Pow((cities[i].xcor - cities[i-1].xcor), 2) + Math.Pow((cities[i].ycor - cities[i-1].ycor), 2)));
             }
+        }
+
+        public void calFitness()
+        {
+            fitness = (1 / distance) *10000;
         }
 
 
