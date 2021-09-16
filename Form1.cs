@@ -16,7 +16,7 @@ namespace GeneticAlgorithms_1stTry
         public Form1()
         {
             InitializeComponent();
-            TSP = new TravellingSalesMan(26);
+            TSP = new TravellingSalesMan(20);
 
         }
 
@@ -49,6 +49,7 @@ namespace GeneticAlgorithms_1stTry
             {
                 TSP.performEvoulution();
                 panel1.Invalidate();
+            label1.Text = TSP.generationNum.ToString();
             }
          
         }

@@ -8,7 +8,7 @@ namespace GeneticAlgorithms_1stTry
     class TravellingSalesMan
     {
         public List<City> AllCities = new List<City>();
-        public Random r = new Random(1);
+        public Random r = new Random(5);
         public string alphabet = "abcdefghijklmnopqrstuvwxyz";
         public List<Path> paths = new List<Path>();
         public int cityNum;
@@ -112,25 +112,26 @@ namespace GeneticAlgorithms_1stTry
         }
         
         // This one wrote myself
-        public void selectionStochastic2()
+        public void selectionStochastic()
         {
 
             double total = 0;
             List<Path> temp = new List<Path>() ;
             temp.Add(copypath(paths[0]));
-           /* 
-            for (int i = 0; i < paths.Count; i++)
-            {
-                temp.Add(new Path());
-            }*/
+            paths = paths.OrderByDescending(p => p.distance).ToList();
+            /* 
+             for (int i = 0; i < paths.Count; i++)
+             {
+                 temp.Add(new Path());
+             }*/
             foreach (var p in paths)
             {
                 total += p.fitness;
             }
             double sum = 0;
        //     int j = 0;
-            Random rr = new Random();
-            double r1 = rr.NextDouble();
+            Random rr = new Random(10);
+            double r1 = r.NextDouble();
             double ReproductionRate;
             for (int i = 0 ;i < paths.Count; i++)
             {
@@ -145,7 +146,7 @@ namespace GeneticAlgorithms_1stTry
             }
             string p0 = "";
             string p1 = "";
-           
+            temp = temp.OrderBy(p => p.distance).ToList();
             int c = temp.Count;
 
             int x = 0;
@@ -155,7 +156,7 @@ namespace GeneticAlgorithms_1stTry
                 temp.Add(copypath(temp[x]));
                 x++;
             }
-       //     paths = temp;
+           
             for (int i = 0; i < paths.Count; i++)
             {
                
@@ -166,10 +167,12 @@ namespace GeneticAlgorithms_1stTry
                 p0 = p0 + string.Join(",", temp[i].distance + "\n");
 
             }
+        
+            paths = temp;
         }
 
         //This one refer to the pseudocode from https://en.wikipedia.org/wiki/Stochastic_universal_sampling
-        public void selectionStochastic(double OfftoKeep)
+        public void selectionStochastic2(double OfftoKeep)
         {
             int pathsToKeep = (int)(OfftoKeep / 100 * paths.Count());
             List<Path> keptPaths = new List<Path>();
@@ -320,13 +323,16 @@ namespace GeneticAlgorithms_1stTry
         }
         public void performEvoulution()
         {
-            //Selection
-            //  selectionTruncation(10);
-            selectionStochastic2();
-            //crossover
-            paths = crossover();
-            sortDistance();
-            generationNum++;
+        //    while (paths[0].distance > 2300)
+         //   {
+                //Selection
+                //  selectionTruncation(10);
+                selectionStochastic();
+                //crossover
+                paths = crossover();
+                sortDistance();
+                generationNum++;
+          //  }
         }
 
     

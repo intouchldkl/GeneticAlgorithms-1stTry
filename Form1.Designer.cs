@@ -32,6 +32,7 @@ namespace GeneticAlgorithms_1stTry
             this.panel1 = new System.Windows.Forms.Panel();
             this.bestPlabel = new System.Windows.Forms.Label();
             this.evolebut = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // panel1
@@ -62,11 +63,22 @@ namespace GeneticAlgorithms_1stTry
             this.evolebut.UseVisualStyleBackColor = true;
             this.evolebut.Click += new System.EventHandler(this.evolebut_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(620, 451);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(68, 30);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(973, 662);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.evolebut);
             this.Controls.Add(this.bestPlabel);
             this.Controls.Add(this.panel1);
@@ -82,6 +94,7 @@ namespace GeneticAlgorithms_1stTry
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label bestPlabel;
         private System.Windows.Forms.Button evolebut;
+        private System.Windows.Forms.Label label1;
     }
 }
 
