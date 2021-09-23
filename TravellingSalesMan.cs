@@ -343,8 +343,8 @@ namespace GeneticAlgorithms_1stTry
             {
                 childpath.cities.Add(new City(0, 0, "empty"));
             }
-            int r1 = r.Next(1,cityNum/2) - 1;
-            int r2 = r.Next(cityNum/2, cityNum - 1);
+            int r1 = r.Next(1,cityNum/2)-1 ;
+            int r2 = r.Next(cityNum/2, cityNum)-1;
             int legnth = r2 - r1;
             while(legnth <= 2 || legnth > cityNum-(cityNum*0.25))
             {
@@ -352,40 +352,48 @@ namespace GeneticAlgorithms_1stTry
                 r2 = r.Next(cityNum / 2, cityNum);
                 legnth = r2 - r1;
             }
-
-            for(int i = r1; i < r2; i++)
+            List<int> numbers = new List<int>();
+            for(int i = r1; i < r2+1; i++)
             {
                 childpath.cities[i] = copyCity(p1.cities[i]);
             }
-            for (int z = r1; z < r2; z++)
+            int n = 0;
+            for (int z = r1; z < r2+1; z++)
             {
+                numbers.Add(z);
+            }
                 for (int i = 0; i < cityNum; i++)
                 {
                     City city = copyCity(p2.cities[i]);
-                    if (!childpath.cities.Exists(c => c.name == city.name)  && i != z)
+                    if (!childpath.cities.Exists(c => c.name == city.name)  && !numbers.Exists(n => n == i))
                     {
-
-                        childpath.cities[i] = city;
+                        childpath.cities[i] = city;                    
                     }
                 }    
-            }
+            
             int x = 0;
-            for (int y = r1; y < r2; y++)
+            for (int y = r1; y < r2+1; y++)
             {
+                City ct = copyCity(p2.cities[y]);
                 for (int i = x; i < cityNum; i++)
                 {
-                    if(childpath.cities.Exists(c => c.name == "empty")  && p2.cities[y].name != childpath.cities[i].name)
+                    if(!childpath.cities.Exists(c => c.name == ct.name) && childpath.cities[i].name == "empty")
                     {
-                        childpath.cities[i] = copyCity(p2.cities[y]);
+                        childpath.cities[i] = ct;
                         x++;
-                        break;
+                       break;
                     }
                 }
             }
             string P1 = string.Join(",", p1.cities.Select(c => c.name));
             string P2 = string.Join(",", p2.cities.Select(c => c.name));
             string of1 = string.Join(",", childpath.cities.Select(c => c.name));
-            int n = childpath.cities.Distinct().Count();
+            int nu = childpath.cities.Distinct().Count();
+            if (childpath.cities.Exists(c => c.name == "empty"))
+            {
+                Console.WriteLine("l");
+            }
+               
             return childpath;
         }
 
