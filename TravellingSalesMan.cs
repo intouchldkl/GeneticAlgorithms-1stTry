@@ -8,7 +8,7 @@ namespace GeneticAlgorithms_1stTry
     class TravellingSalesMan
     {
         public List<City> AllCities = new List<City>();
-        public Random r = new Random(5);
+        public Random r = new Random(1);
         public string alphabet = "abcdefghijklmnopqrstuvwxyz";
         public List<Path> paths = new List<Path>();
         public int cityNum;
@@ -307,7 +307,7 @@ namespace GeneticAlgorithms_1stTry
             childrenpaths.Add(paths[0]);
             for(int i = 0; i < paths.Count - 1; i++)
             {
-                Path childpath = crossovercycle( paths[i], paths[paths.Count - i - 1]);
+                Path childpath =    crossovercycle( paths[i], paths[paths.Count - i - 1]);
                 int r1 = r.Next(cityNum);
                 int r2 = r.Next(cityNum);
                 //mutation
@@ -326,13 +326,67 @@ namespace GeneticAlgorithms_1stTry
         //    while (paths[0].distance > 2300)
          //   {
                 //Selection
-                //  selectionTruncation(10);
-                selectionStochastic();
-                //crossover
-                paths = crossover();
+                  selectionTruncation(50);
+            // selectionStochastic();
+            //crossover
+            Path test = partiallymappedcrossover(paths[0], paths[1]);
+            paths = crossover();
                 sortDistance();
                 generationNum++;
           //  }
+        }
+        public Path partiallymappedcrossover(Path p1,Path p2)
+        {
+            Path childpath = new Path();
+           
+            for (int i = 0; i < cityNum; i++)
+            {
+                childpath.cities.Add(new City(0, 0, "empty"));
+            }
+            int r1 = r.Next(0,cityNum/2);
+            int r2 = r.Next(cityNum/2, cityNum);
+            int legnth = r2 - r1;
+            while(legnth <= 2 || legnth > cityNum-(cityNum*0.25))
+            {
+                r1 = r.Next(0, cityNum / 2);
+                r2 = r.Next(cityNum / 2, cityNum);
+                legnth = r2 - r1;
+            }
+
+            for(int i = r1; i < r2; i++)
+            {
+                childpath.cities[i] = copyCity(p1.cities[i]);
+            }
+            for (int z = r1; z < r2; z++)
+            {
+                for (int i = 0; i < cityNum; i++)
+                {
+                    City city = copyCity(p2.cities[i]);
+                    if (!childpath.cities.Exists(c => c.name == city.name) && i != z)
+                    {
+
+                        childpath.cities[i] = city;
+                    }
+                }    
+            }
+            int x = 0;
+            for (int y = r1; y < r2; y++)
+            {
+                for (int i = x; i < cityNum; i++)
+                {
+                    if(childpath.cities.Exists(c => c.name == "empty") && p2.cities[y].name != childpath.cities[i].name)
+                    {
+                        childpath.cities[i] = copyCity(p2.cities[y]);
+                        x++;
+                        break;
+                    }
+                }
+            }
+            string P1 = string.Join(",", p1.cities.Select(c => c.name));
+            string P2 = string.Join(",", p2.cities.Select(c => c.name));
+            string of1 = string.Join(",", childpath.cities.Select(c => c.name));
+            int n = childpath.cities.Distinct().Count();
+            return childpath;
         }
 
     
