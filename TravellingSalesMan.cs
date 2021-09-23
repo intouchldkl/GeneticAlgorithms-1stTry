@@ -307,7 +307,7 @@ namespace GeneticAlgorithms_1stTry
             childrenpaths.Add(paths[0]);
             for(int i = 0; i < paths.Count - 1; i++)
             {
-                Path childpath =    crossovercycle( paths[i], paths[paths.Count - i - 1]);
+                Path childpath = partiallymappedcrossover(paths[i], paths[paths.Count - i - 1]);   //crossovercycle( paths[i], paths[paths.Count - i - 1]);
                 int r1 = r.Next(cityNum);
                 int r2 = r.Next(cityNum);
                 //mutation
@@ -329,7 +329,7 @@ namespace GeneticAlgorithms_1stTry
                   selectionTruncation(50);
             // selectionStochastic();
             //crossover
-            Path test = partiallymappedcrossover(paths[0], paths[1]);
+
             paths = crossover();
                 sortDistance();
                 generationNum++;
@@ -343,8 +343,8 @@ namespace GeneticAlgorithms_1stTry
             {
                 childpath.cities.Add(new City(0, 0, "empty"));
             }
-            int r1 = r.Next(0,cityNum/2);
-            int r2 = r.Next(cityNum/2, cityNum);
+            int r1 = r.Next(1,cityNum/2) - 1;
+            int r2 = r.Next(cityNum/2, cityNum - 1);
             int legnth = r2 - r1;
             while(legnth <= 2 || legnth > cityNum-(cityNum*0.25))
             {
@@ -362,7 +362,7 @@ namespace GeneticAlgorithms_1stTry
                 for (int i = 0; i < cityNum; i++)
                 {
                     City city = copyCity(p2.cities[i]);
-                    if (!childpath.cities.Exists(c => c.name == city.name) && i != z)
+                    if (!childpath.cities.Exists(c => c.name == city.name)  && i != z)
                     {
 
                         childpath.cities[i] = city;
@@ -374,7 +374,7 @@ namespace GeneticAlgorithms_1stTry
             {
                 for (int i = x; i < cityNum; i++)
                 {
-                    if(childpath.cities.Exists(c => c.name == "empty") && p2.cities[y].name != childpath.cities[i].name)
+                    if(childpath.cities.Exists(c => c.name == "empty")  && p2.cities[y].name != childpath.cities[i].name)
                     {
                         childpath.cities[i] = copyCity(p2.cities[y]);
                         x++;
