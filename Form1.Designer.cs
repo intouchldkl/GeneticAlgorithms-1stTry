@@ -33,6 +33,7 @@ namespace GeneticAlgorithms_1stTry
             this.bestPlabel = new System.Windows.Forms.Label();
             this.evolebut = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // panel1
@@ -41,7 +42,6 @@ namespace GeneticAlgorithms_1stTry
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(500, 500);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // bestPlabel
             // 
@@ -67,17 +67,26 @@ namespace GeneticAlgorithms_1stTry
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(620, 451);
+            this.label1.Location = new System.Drawing.Point(859, 166);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 30);
             this.label1.TabIndex = 3;
             this.label1.Text = "label1";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(523, 317);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(404, 333);
+            this.richTextBox1.TabIndex = 4;
+            this.richTextBox1.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(973, 662);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.evolebut);
             this.Controls.Add(this.bestPlabel);
@@ -95,6 +104,7 @@ namespace GeneticAlgorithms_1stTry
         private System.Windows.Forms.Label bestPlabel;
         private System.Windows.Forms.Button evolebut;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

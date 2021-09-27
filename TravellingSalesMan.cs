@@ -8,13 +8,14 @@ namespace GeneticAlgorithms_1stTry
     class TravellingSalesMan
     {
         public List<City> AllCities = new List<City>();
-        public Random r = new Random(1);
+        public Random r;
         public string alphabet = "abcdefghijklmnopqrstuvwxyz";
         public List<Path> paths = new List<Path>();
         public int cityNum;
         public int generationNum = 0;
-        public TravellingSalesMan(int n)
+        public TravellingSalesMan(int n,int seed)
         {
+            this.r = new Random(seed);
             this.cityNum = n;
             for (int i = 0; i < n; i++)
             {
@@ -95,7 +96,56 @@ namespace GeneticAlgorithms_1stTry
             } */
           paths =  paths.OrderBy(p => p.distance).ToList();
         }
+        public void RouletteSelection(double point)
+        {
+            List<Path> keptPaths = new List<Path>();
+            keptPaths.Add(paths[0]);
 
+            int i = 0;
+            while (getfitnesssum(i) < point)
+            {
+                i++;
+                keptPaths.Add(paths[i]);
+
+            }
+
+            int f = 0; //count for keptpaths
+            for (int z = 0; z < paths.Count; z++)
+            {
+                if (f < keptPaths.Count)
+                {
+                    paths[z] = copypath(keptPaths[f]);
+                    f++;
+                }
+                else
+                {
+                    f = 0;
+                }
+            }
+
+            string p0 = "";
+            string p1 = "";
+            int x;
+
+            for (x = 0; x < paths.Count; x++)
+            {
+                p1 = p1 + string.Join(",", paths[x].distance + "\n");
+            }
+
+            int c = keptPaths.Distinct().Count();
+            for (x = 0; x < keptPaths.Count; x++)
+            {
+                p0 = p0 + string.Join(",", keptPaths[x].distance + "\n");
+
+            }
+
+            x = 0;
+
+
+
+
+
+        }
         public void selectionTruncation(double Spercent)
         {
             int pathsToKeep = (int)(Spercent / 100 * paths.Count());
@@ -307,7 +357,7 @@ namespace GeneticAlgorithms_1stTry
             childrenpaths.Add(paths[0]);
             for(int i = 0; i < paths.Count - 1; i++)
             {
-                Path childpath = partiallymappedcrossover(paths[i], paths[paths.Count - i - 1]);   //crossovercycle( paths[i], paths[paths.Count - i - 1]);
+                Path childpath =   crossovercycle( paths[i], paths[paths.Count - i - 1]); //partiallymappedcrossover(paths[i], paths[paths.Count - i - 1]);
                 int r1 = r.Next(cityNum);
                 int r2 = r.Next(cityNum);
                 //mutation
@@ -323,11 +373,12 @@ namespace GeneticAlgorithms_1stTry
         }
         public void performEvoulution()
         {
-        //    while (paths[0].distance > 2300)
-         //   {
-                //Selection
-                  selectionTruncation(50);
-            // selectionStochastic();
+            //    while (paths[0].distance > 2300)
+            //   {
+            //Selection
+           //  selectionTruncation(90);
+            //   selectionStochastic();
+            RouletteSelection(5);
             //crossover
 
             paths = crossover();
@@ -389,11 +440,7 @@ namespace GeneticAlgorithms_1stTry
             string P2 = string.Join(",", p2.cities.Select(c => c.name));
             string of1 = string.Join(",", childpath.cities.Select(c => c.name));
             int nu = childpath.cities.Distinct().Count();
-            if (childpath.cities.Exists(c => c.name == "empty"))
-            {
-                Console.WriteLine("l");
-            }
-               
+            
             return childpath;
         }
 

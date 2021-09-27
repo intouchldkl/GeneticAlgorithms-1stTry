@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,16 +13,21 @@ namespace GeneticAlgorithms_1stTry
 {
     public partial class Form1 : Form
     {
-       static TravellingSalesMan TSP;
+       static TravellingSalesMan TSP ;
+        static List<int> distances = new List<int>();
         public Form1()
         {
             InitializeComponent();
-            TSP = new TravellingSalesMan(20);
+         
+            
 
         }
-
+        /*
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
+            
+
+            
             panel1.BackColor = Color.LightBlue;
             Graphics G = e.Graphics;
             foreach (var c in TSP.AllCities)
@@ -42,16 +48,25 @@ namespace GeneticAlgorithms_1stTry
             }
             bestPlabel.Text = bestpathcity + " => " + BestPath.distance.ToString() + " meter";
         }
-
+        */
         private void evolebut_Click(object sender, EventArgs e)
         {
-            while(TSP.generationNum < 1000)
+            string d = "";
+            for(int i = 1;i < 101; i++)
             {
-                TSP.performEvoulution();
-                panel1.Invalidate();
-            label1.Text = TSP.generationNum.ToString();
+                TSP = new TravellingSalesMan(20, i);
+                while (TSP.generationNum < 1000)
+                {
+                    TSP.performEvoulution();
+                    d = TSP.paths[0].distance.ToString();
+                    //   panel1.Invalidate();
+                    // label1.Text = TSP[i].generationNum.ToString();
+                }
+                richTextBox1.AppendText(d + "\n");
             }
-         
+
+            //File.WriteAllText("result.txt", richTextBox1.Text);
+
         }
     }
 }
